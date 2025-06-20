@@ -1,0 +1,29 @@
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.6.0
+    hooks:
+      - id: uv-lock
+      - id: uv-export
+        args:
+          - --no-hashes
+          - --output-file=requirements.txt
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.11.2
+    hooks:
+      # Run the linter.
+      - id: ruff
+        types_or: [python, pyi]
+        args: [--fix]
+      # Run the formatter.
+      - id: ruff-format
+        types_or: [python, pyi]
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: ./.venv/bin/pytest tests
+        language: python
+        pass_filenames: false
+        always_run: true
